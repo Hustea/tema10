@@ -8,6 +8,11 @@ public class Poligono {
         this.puntos = puntos;
     }
 
+    /**
+     * Mover un poligono
+     * @param x
+     * @param y
+     */
     public void traslada(double x, double y){
         for(Punto punto : puntos){
             punto.setX(punto.getX() + x);
@@ -15,6 +20,10 @@ public class Poligono {
         }
     }
 
+    /**
+     * Calcular el diametro de un poligono
+     * @return el diametro
+     */
     public double perimetro(){
         double perimetro = 0;
         double cateto1;
