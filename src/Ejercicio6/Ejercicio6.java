@@ -57,8 +57,8 @@ public class Ejercicio6 {
                     }
                 }
 
-                case 3 ->;
-                case 4 ->;
+                case 3 -> System.out.println("no found");
+                case 4 ->System.out.println("no found");
             }
         }while (opcion != 0);
     }
@@ -88,12 +88,12 @@ public class Ejercicio6 {
             }while (opcion < 0 || opcion > 4);
 
             switch (opcion){
-                case 1 ->;
-                case 2 ->;
-                case 3 ->;
-                case 4 ->;
-                case 5 ->;
-                case 6 ->;
+                case 1 ->System.out.println("no found");
+                case 2 ->System.out.println("no found");
+                case 3 ->System.out.println("no found");
+                case 4 ->System.out.println("no found");
+                case 5 ->System.out.println("no found");
+                case 6 ->System.out.println("no found");
             }
         }while (opcion != 0);
     }
