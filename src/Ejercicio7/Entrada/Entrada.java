@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public abstract class Entrada {
     private static int IdIncremental = 1;
-    private int id;
+    private final int id;
     private Zona zona;
     private Fila fila;
     private int asiento;
@@ -30,41 +30,26 @@ public abstract class Entrada {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Zona getZona() {
         return zona;
     }
 
-    public void setZona(Zona zona) {
-        this.zona = zona;
-    }
 
     public Fila getFila() {
         return fila;
     }
 
-    public void setFila(Fila fila) {
-        this.fila = fila;
-    }
 
     public int getAsiento() {
         return asiento;
     }
 
-    public void setAsiento(int asiento) {
-        this.asiento = asiento;
-    }
 
     public Partido getPartido() {
         return partido;
     }
 
-    public void setPartido(Partido partido) {
-        this.partido = partido;
-    }
 
     @Override
     public boolean equals(Object o) {
