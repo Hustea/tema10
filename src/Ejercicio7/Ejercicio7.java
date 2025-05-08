@@ -52,13 +52,7 @@ public class Ejercicio7 {
             }while (opcion < 0 || opcion > 4);
 
             switch (opcion){
-                case 1 -> {
-                    try{
-                        Gestion.ventaEntradas();
-                    }catch (Exception e){
-                        System.out.println("No quedan asientos disponibles(Revisa primero -Listado de localidades libres-)");
-                    }
-                }
+                case 1 -> Gestion.comprobarEstadioYVenderEntrada();
                 case 2 ->Gestion.devolverEntrada();
                 case 3 ->Gestion.mostrarAsientosDisponibles();
                 case 4 ->Gestion.mostrarRecaudacionPartido();

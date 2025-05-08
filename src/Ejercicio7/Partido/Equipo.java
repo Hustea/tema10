@@ -3,8 +3,8 @@ package Ejercicio7.Partido;
 import java.util.Objects;
 
 public class Equipo {
-    private int id;
-    private String nombre;
+    private final int id;
+    private final String nombre;
     private static int idIncremental = 1;
 
     public Equipo(String nombre) {
@@ -13,24 +13,15 @@ public class Equipo {
     }
 
     private int asignarId(){
-        idIncremental++;
-        return idIncremental;
+        return idIncremental++;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     @Override

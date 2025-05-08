@@ -39,10 +39,20 @@ public class Gestion {
         historicoPartidos.add(new Partido(e1, e2, afluencia, fecha));
     }
 
-
-    public static void ventaEntradas() throws Exception{
+    public static void comprobarEstadioYVenderEntrada(){
         System.out.println("De que partido quieres la entrada:");
         Partido partido = seleccionarPartido();
+
+        if(partido.getEstadio().isFull() == true){
+            System.out.println("Ya se han vendido todas las entradas");
+        }else{
+            ventaEntradas(partido);
+        }
+
+    }
+
+    public static void ventaEntradas(Partido partido){
+
 
         System.out.println("En que zona del estadio se quiere sentar:");
         Zona zona = seleccionarZona(partido);
@@ -111,7 +121,7 @@ public class Gestion {
 
     //############################### SELECIONAR DATOS ###############################
 
-    public static int seleccionarAsiento(Fila fila) throws Exception{
+    public static int seleccionarAsiento(Fila fila){
         int opcion = -1;
         do{
             mostrarAsiento(fila);
@@ -128,10 +138,10 @@ public class Gestion {
         do{
             mostrarFila(zona);
             opcion = Validacion.solicitarEnteroValido();
-            if(opcion < 1 && opcion > zona.getFilas().length){
+            if(zona.getFilas()[opcion-1].isFull() != false){
                 System.out.println("Este numero no es valido, intentelo denuevo");
             }
-        }while (opcion < 1 && opcion > zona.getFilas().length);
+        }while (zona.getFilas()[opcion-1].isFull() != false);
         return zona.getFilas()[opcion-1];
     }
 
@@ -200,21 +210,19 @@ public class Gestion {
 
     //############################### MOSTRAR DATOS ###############################
 
-    public static void mostrarAsiento(Fila fila) throws Exception{
-        if(fila.getAsientosDisponibles() == 0){
-            throw new Exception();
-        }else{
-            for(int i = 0; i < fila.getFila().length; i++){
-                if(fila.getFila()[i] == false){
-                    System.out.println("Asiento "+(i));
-                }
+    public static void mostrarAsiento(Fila fila){
+        for(int i = 0; i < fila.getFila().length; i++){
+            if(fila.getFila()[i] == false){
+                System.out.println("Asiento "+(i));
             }
         }
     }
 
     public static void mostrarFila(Zona zona){
         for(int i = 0; i < zona.getFilas().length; i++){
-            System.out.println((i+1)+". "+zona.getFilas()[i].getNombre());
+            if(zona.getFilas()[i].isFull() == false){
+                System.out.println((i+1)+". "+zona.getFilas()[i].getNombre());
+            }
         }
     }
 

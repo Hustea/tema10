@@ -12,6 +12,12 @@ public class Fila {
         this.nombre = nombre;
     }
 
+    public Fila() {
+        this.fila = new boolean[]{true, true, true, true, true};
+        this.nombre = 'P';
+    }
+
+
     public int getAsientosDisponibles(){
         int disponible = 0;
         for(boolean asiento : fila){

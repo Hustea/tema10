@@ -53,8 +53,8 @@ public class Zona {
             if(fila.isFull() == false){
                 return false;
             }
-            return true;
         }
+        return true;
     }
 
     @Override
