@@ -34,7 +34,7 @@ public class Gestion {
         Afluencia afluencia = selecionarAfluencia();
 
         System.out.println("Cual es la fecha del partido");
-        LocalDate fecha = Validacion.validarFecha();
+        LocalDate fecha = Validacion.validarFecha(historicoPartidos);
 
         historicoPartidos.add(new Partido(e1, e2, afluencia, fecha));
     }

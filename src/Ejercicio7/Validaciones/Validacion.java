@@ -1,18 +1,22 @@
 package Ejercicio7.Validaciones;
 
+import Ejercicio7.Partido.Partido;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Validacion {
     static Scanner scanner = new Scanner(System.in);
 
-    public static LocalDate validarFecha(){
+    public static LocalDate validarFecha(ArrayList<Partido> historicoPartidos){
         LocalDate fecha = null;
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        boolean fechaValida = false;
 
-        while (fecha == null) {
+        do {
             System.out.print("Introduce una fecha (formato dd/MM/yyyy): ");
             String entrada = scanner.nextLine();
 
@@ -22,7 +26,16 @@ public class Validacion {
             } catch (DateTimeParseException dtpe) {
                 System.out.println("Formato de fecha incorrecto. Inténtalo de nuevo.");
             }
-        }
+
+            fechaValida=true;
+            for(int i = 0; i < historicoPartidos.size(); i++){
+                if(historicoPartidos.get(i).getFecha().equals(fecha)){
+                    fechaValida=false;
+                    System.out.println("Esta fecha ya esta ocupada");
+                }
+            }
+
+        }while (fecha == null || fechaValida==false);
         return fecha;
     }
 
