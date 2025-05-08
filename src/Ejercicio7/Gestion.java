@@ -9,6 +9,7 @@ import Ejercicio7.Estadio.Fila;
 import Ejercicio7.Estadio.Zona;
 import Ejercicio7.Partido.Equipo;
 import Ejercicio7.Partido.Partido;
+import Ejercicio7.Validaciones.Validacion;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,13 +28,13 @@ public class Gestion {
         Equipo e1 = selecionarEquipo();
 
         System.out.println("Cual de estos es el equipo visitante:");
-        Equipo e2 = selecionarEquipo();
+        Equipo e2 = selecionarEquipo(e1);
 
         System.out.println("Cual es la afiliacion del partido");
         Afluencia afluencia = selecionarAfluencia();
 
         System.out.println("Cual es la fecha del partido");
-        LocalDate fecha = solicitarFecha();
+        LocalDate fecha = Validacion.validarFecha();
 
         historicoPartidos.add(new Partido(e1, e2, afluencia, fecha));
     }
@@ -67,11 +68,12 @@ public class Gestion {
 
     public static void devolverEntrada(){
         System.out.println("Introduce el id de tu entrada:");
-        int id = Integer.parseInt(scanner.nextLine()); //VALIDAR--------------------------
+        int id = Validacion.solicitarEnteroValido();
 
         for(Entrada entrada : entradasVendidas){
             if(entrada.getId() == id){
                 entradasVendidas.remove(entrada);
+                entrada.getFila().getFila()[entrada.getAsiento()] = false;
                 entrada.getPartido().setRecaudacion((int) (entrada.getPartido().getRecaudacion() - (entrada.getPartido().getAfluencia().getValor() * entrada.getZona().getPrecioBase())));
                 return;
             }
@@ -107,17 +109,96 @@ public class Gestion {
         System.out.println("Este partido ha recaudado: "+partido.getRecaudacion()+"€");
     }
 
+    //############################### SELECIONAR DATOS ###############################
+
     public static int seleccionarAsiento(Fila fila) throws Exception{
         int opcion = -1;
         do{
             mostrarAsiento(fila);
-            opcion = Integer.parseInt(scanner.nextLine()); // VALIDAR--------------------------
+            opcion = Validacion.solicitarEnteroValido();
             if(fila.getFila()[opcion] == true){
                 System.out.println("Este numero no es valido, intentelo denuevo");
             }
         }while (fila.getFila()[opcion] == true);
         return opcion;
     }
+
+    public static Fila seleccionarFila(Zona zona){
+        int opcion = -1;
+        do{
+            mostrarFila(zona);
+            opcion = Validacion.solicitarEnteroValido();
+            if(opcion < 1 && opcion > zona.getFilas().length){
+                System.out.println("Este numero no es valido, intentelo denuevo");
+            }
+        }while (opcion < 1 && opcion > zona.getFilas().length);
+        return zona.getFilas()[opcion-1];
+    }
+
+    public static Zona seleccionarZona(Partido partido){
+        int opcion = -1;
+        do{
+            mostrarZona(partido);
+            opcion = Validacion.solicitarEnteroValido();
+            if(opcion < 1 && opcion > partido.getEstadio().getZonas().length){
+                System.out.println("Este numero no es valido, intentelo denuevo");
+            }
+        }while (opcion < 1 && opcion > partido.getEstadio().getZonas().length);
+        return partido.getEstadio().getZonas()[opcion-1];
+    }
+
+    public static Partido seleccionarPartido(){
+        int opcion = -1;
+        do{
+            mostrarPartidos();
+            opcion = Validacion.solicitarEnteroValido();
+            if(opcion < 1 && opcion > historicoPartidos.size()){
+                System.out.println("Este numero no es valido, intentelo denuevo");
+            }
+        }while (opcion < 1 && opcion > historicoPartidos.size());
+        return historicoPartidos.get(opcion-1);
+    }
+
+    public static Equipo selecionarEquipo(){
+        int opcion = -1;
+        do{
+            mostrarEquipos();
+            opcion = Validacion.solicitarEnteroValido();
+            if(opcion < 1 && opcion > equipos.size()){
+                System.out.println("Este numero no es valido, intentelo denuevo");
+            }
+        }while (opcion < 1 && opcion > equipos.size());
+        return equipos.get(opcion-1);
+    }
+
+    public static Equipo selecionarEquipo(Equipo equipo){
+        int opcion = -1;
+        do{
+            mostrarEquipos();
+            opcion = Validacion.solicitarEnteroValido();
+            if(opcion < 1 && opcion > equipos.size()){
+                System.out.println("Este numero no es valido, intentelo denuevo");
+            }
+            if(equipos.get(opcion-1).getId() == equipo.getId()){
+                System.out.println("No puedes seleccionar el mismo equipo");
+            }
+        }while (opcion < 1 && opcion > equipos.size() || equipos.get(opcion-1).getId() == equipo.getId());
+        return equipos.get(opcion-1);
+    }
+
+    public static Afluencia selecionarAfluencia(){
+        int opcion = -1;
+        do{
+            mostrarAfluencia();
+            opcion = Validacion.solicitarEnteroValido();
+            if(opcion < 1 && opcion > Afluencia.values().length){
+                System.out.println("Este numero no es valido, intentelo denuevo");
+            }
+        }while (opcion < 1 && opcion > Afluencia.values().length);
+        return Afluencia.values()[opcion-1];
+    }
+
+    //############################### MOSTRAR DATOS ###############################
 
     public static void mostrarAsiento(Fila fila) throws Exception{
         if(fila.getAsientosDisponibles() == 0){
@@ -131,34 +212,10 @@ public class Gestion {
         }
     }
 
-    public static Fila seleccionarFila(Zona zona){
-        int opcion = -1;
-        do{
-            mostrarFila(zona);
-            opcion = Integer.parseInt(scanner.nextLine()); // VALIDAR--------------------------
-            if(opcion < 1 && opcion > zona.getFilas().length){
-                System.out.println("Este numero no es valido, intentelo denuevo");
-            }
-        }while (opcion < 1 && opcion > zona.getFilas().length);
-        return zona.getFilas()[opcion-1];
-    }
-
     public static void mostrarFila(Zona zona){
         for(int i = 0; i < zona.getFilas().length; i++){
             System.out.println((i+1)+". "+zona.getFilas()[i].getNombre());
         }
-    }
-
-    public static Zona seleccionarZona(Partido partido){
-        int opcion = -1;
-        do{
-            mostrarZona(partido);
-            opcion = Integer.parseInt(scanner.nextLine()); // VALIDAR--------------------------
-            if(opcion < 1 && opcion > partido.getEstadio().getZonas().length){
-                System.out.println("Este numero no es valido, intentelo denuevo");
-            }
-        }while (opcion < 1 && opcion > partido.getEstadio().getZonas().length);
-        return partido.getEstadio().getZonas()[opcion-1];
     }
 
     public static void mostrarZona(Partido partido){
@@ -168,34 +225,10 @@ public class Gestion {
         }
     }
 
-    public static Partido seleccionarPartido(){
-        int opcion = -1;
-        do{
-            mostrarPartidos();
-            opcion = Integer.parseInt(scanner.nextLine()); // VALIDAR--------------------------
-            if(opcion < 1 && opcion > historicoPartidos.size()){
-                System.out.println("Este numero no es valido, intentelo denuevo");
-            }
-        }while (opcion < 1 && opcion > historicoPartidos.size());
-        return historicoPartidos.get(opcion-1);
-    }
-
     public static void mostrarPartidos(){
         for(int i = 0; i < historicoPartidos.size(); i++){
             System.out.println((i+1)+". "+historicoPartidos.get(i).toString());
         }
-    }
-
-    public static Equipo selecionarEquipo(){
-        int opcion = -1;
-        do{
-            mostrarEquipos();
-            opcion = Integer.parseInt(scanner.nextLine()); // VALIDAR--------------------------
-            if(opcion < 1 && opcion > equipos.size()){
-                System.out.println("Este numero no es valido, intentelo denuevo");
-            }
-        }while (opcion < 1 && opcion > equipos.size());
-        return equipos.get(opcion-1);
     }
 
     public static void mostrarEquipos(){
@@ -204,39 +237,9 @@ public class Gestion {
         }
     }
 
-    public static Afluencia selecionarAfluencia(){
-        int opcion = -1;
-        do{
-            mostrarAfluencia();
-            opcion = Integer.parseInt(scanner.nextLine()); // VALIDAR--------------------------
-            if(opcion < 1 && opcion > Afluencia.values().length){
-                System.out.println("Este numero no es valido, intentelo denuevo");
-            }
-        }while (opcion < 1 && opcion > Afluencia.values().length);
-        return Afluencia.values()[opcion-1];
-    }
-
     public static void mostrarAfluencia(){
         for(int i = 0; i < Afluencia.values().length; i++){
             System.out.println((i+1)+". "+Afluencia.values()[i].toString());
         }
-    }
-
-    public static LocalDate solicitarFecha(){
-        LocalDate fecha = null;
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        while (fecha == null) {
-            System.out.print("Introduce una fecha (formato dd/MM/yyyy): ");
-            String entrada = scanner.nextLine();
-
-            try {
-                fecha = LocalDate.parse(entrada, formato);
-                System.out.println("Fecha válida: " + fecha);
-            } catch (DateTimeParseException dtpe) {
-                System.out.println("Formato de fecha incorrecto. Inténtalo de nuevo.");
-            }
-        }
-        return fecha;
     }
 }

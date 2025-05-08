@@ -23,8 +23,7 @@ public abstract class Entrada {
     }
 
     private int asignarId(){
-        IdIncremental++;
-        return IdIncremental;
+        return IdIncremental++;
     }
 
     public int getId() {

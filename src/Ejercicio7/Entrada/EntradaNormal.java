@@ -16,8 +16,7 @@ public class EntradaNormal extends Entrada{
     }
 
     private int asignarNumSorteo(){
-        sorteoIncremental++;
-        return sorteoIncremental;
+        return sorteoIncremental++;
     }
 
     public int getSorteo() {

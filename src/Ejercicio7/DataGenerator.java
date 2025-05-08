@@ -36,11 +36,11 @@ public class DataGenerator {
     }
 
     public static Zona generarZona(String nombre, boolean vip, int precioBase){
-        Fila f1 = new Fila('a');
-        Fila f2 = new Fila('b');
-        Fila f3 = new Fila('c');
-        Fila f4 = new Fila('d');
-        Fila f5 = new Fila('e');
+        Fila f1 = new Fila('A');
+        Fila f2 = new Fila('B');
+        Fila f3 = new Fila('C');
+        Fila f4 = new Fila('D');
+        Fila f5 = new Fila('E');
 
         Fila[] filas ={f1, f2, f3, f4, f5};
 

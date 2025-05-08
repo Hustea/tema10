@@ -63,10 +63,19 @@ public class Zona {
 
     @Override
     public String toString() {
-        return "Zona{" +
-                "nombre='" + nombre + '\'' +
-                ", vip=" + vip +
-                ", precioBase=" + precioBase +
-                '}';
+        String AMARILLO = "\u001B[33m";
+        String RESET = "\u001B[0m";
+        if(vip == true){
+            return "#{" +
+                    "nombre="+AMARILLO+"'" + nombre + '\'' +
+                    RESET+
+                    ", precioBase=" + precioBase +
+                    "}#";
+        }else{
+            return "#{" +
+                    "nombre='" + nombre + '\'' +
+                    ", precioBase=" + precioBase +
+                    "}#";
+        }
     }
 }

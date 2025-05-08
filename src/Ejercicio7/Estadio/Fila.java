@@ -53,8 +53,6 @@ public class Fila {
 
     @Override
     public String toString() {
-        return "Fila{" +
-                ", nombre=" + nombre +
-                '}';
+        return "Fila{"+ nombre +'}';
     }
 }
