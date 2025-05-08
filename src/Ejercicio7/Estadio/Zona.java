@@ -48,6 +48,15 @@ public class Zona {
         this.precioBase = precioBase;
     }
 
+    public boolean isFull(){
+        for(Fila fila : filas){
+            if(fila.isFull() == false){
+                return false;
+            }
+            return true;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

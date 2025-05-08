@@ -38,6 +38,15 @@ public class Fila {
         this.nombre = nombre;
     }
 
+    public boolean isFull(){
+        for(boolean asiento : fila){
+            if(asiento == false){
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
